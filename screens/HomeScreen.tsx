@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { audiobooks } from '../data/audiobooks';
 import { getFavorites, toggleFavorite } from '../utils/favorites';
+
+const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const navigation = useNavigation<any>();
@@ -27,34 +37,92 @@ export default function HomeScreen() {
     const isFav = favorites.includes(item.id);
 
     return (
-      <View style={{ flexDirection: 'row', padding: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+      <View style={styles.card}>
         <TouchableOpacity
-          style={{ flexDirection: 'row', flex: 1 }}
+          style={styles.content}
           onPress={() => navigation.navigate('Player', { id: item.id })}
         >
-          <Image source={{ uri: item.cover }} style={{ width: 60, height: 90, marginRight: 10 }} />
-          <View>
-            <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
-            <Text>{item.author}</Text>
+          <Image
+            source={{ uri: item.cover }}
+            style={styles.cover}
+            resizeMode="cover"
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.author}>{item.author}</Text>
           </View>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => handleToggleFavorite(item.id)}>
-          <Ionicons name={isFav ? 'heart' : 'heart-outline'} size={24} color="tomato" />
+          <Ionicons
+            name={isFav ? 'heart' : 'heart-outline'}
+            size={28}
+            color="#7C3AED"
+          />
         </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View style={{ flex: 1, marginTop: 40 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
-        🎧 AudiobookApp
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.appTitle}>🎧 AudiobookApp</Text>
       <FlatList
         data={audiobooks}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6F7FB',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+  },
+  appTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#1F2937',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    flexDirection: 'row',
+    padding: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  content: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
+  cover: {
+    width: 60,
+    height: 90,
+    borderRadius: 10,
+    marginRight: 12,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+  },
+  author: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+});
