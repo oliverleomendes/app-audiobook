@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { audiobooks } from '../data/audiobooks';
 import AudioPlayer from '../components/AudioPlayer';
 
@@ -20,12 +20,12 @@ export default function PlayerScreen({ route }: any) {
       <Text style={{ marginTop: 20, fontSize: 16 }}>Capítulos</Text>
       <FlatList
         data={book.chapters}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => setSelectedChapter(item)} style={{ paddingVertical: 5 }}>
             <Text style={{ color: selectedChapter?.id === item.id ? 'blue' : 'black' }}>{item.title}</Text>
           </TouchableOpacity>
         )}
-        keyExtractor={item => item.id}
       />
 
       {selectedChapter && <AudioPlayer audioId={selectedChapter.id} uri={selectedChapter.file} />}

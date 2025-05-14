@@ -12,10 +12,10 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
-        const icons = { 'Início': 'home', 'Favoritos': 'heart', 'Perfil': 'person' };
-        return <Ionicons name={icons[route.name] || 'home'} size={size} color={color} />;
+        const icons: any = { 'Início': 'home', 'Favoritos': 'heart', 'Perfil': 'person' };
+        return <Ionicons name={icons[route.name]} size={size} color={color} />;
       },
-      headerShown: false,
+      headerShown: false
     })}>
       <Tab.Screen name="Início" component={HomeScreen} />
       <Tab.Screen name="Favoritos" component={FavoritesScreen} />

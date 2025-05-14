@@ -16,12 +16,15 @@ export default function AudioPlayer({ audioId, uri }: Props) {
 
   useEffect(() => {
     loadAudio();
-    return () => { if (sound.current) sound.current.unloadAsync(); };
+    return () => {
+      if (sound.current) sound.current.unloadAsync();
+    };
   }, [uri]);
 
   const loadAudio = async () => {
     const saved = await AsyncStorage.getItem(`progress-${audioId}`);
     const initial = saved ? parseInt(saved) : 0;
+
     const { sound: s } = await Audio.Sound.createAsync(
       { uri },
       { shouldPlay: false, positionMillis: initial },
