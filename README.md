@@ -30,5 +30,5 @@ Aplicativo mobile de audiobooks desenvolvido com **React Native + Expo**, com su
 1. Clone este repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/audiobookapp.git
+git clone https://github.com/oliverleomendes/app-audiobook
 cd audiobookapp
